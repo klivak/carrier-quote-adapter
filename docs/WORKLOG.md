@@ -43,3 +43,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Added the page: profile switcher, three groups (ask, check, from profile), live request preview, ineligible and success screens.
 - How: Fields are grouped by what the customer must do. On a failed submit, the first invalid field gets focus and a summary lists all of them.
 - Check: Ran both sample profiles in the browser with Playwright.
+
+## 8. UX pass
+
+- What: Set the theme, darker input borders and muted text for contrast, reduced-motion support and page metadata.
+- How: Reviewed screenshots of each state on desktop and mobile.
+- Check: Screenshots showed the phone placeholder looked like a filled value, so I removed it. I also added a way back from the success screen.
