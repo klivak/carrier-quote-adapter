@@ -90,22 +90,39 @@ Stored unchanged as `lib/carriers/harbor/form.json`.
 ## 5. Project structure
 
 ```
-app/page.tsx                     Page: profile switcher and quote flow
-components/quote/                Generic form renderer, field controls, result views
-lib/types.ts                     Profile, form definition, field resolution types
-lib/profiles.ts                  Sample profiles
-lib/engine/resolve.ts            Profile + form + mapping -> field resolutions
-lib/engine/visibility.ts         Evaluates showIf
-lib/engine/validate.ts           Required, pattern, min, option and custom rules
-lib/engine/eligibility.ts        Returns every reason a carrier can't quote
-lib/engine/build-request.ts      Final answers -> carrier request
-lib/engine/converters.ts         Shared converters: dates, state names, age
-lib/carriers/harbor/form.json    Carrier form, unchanged
-lib/carriers/harbor/mapping.ts   Harbor mapping
-lib/carriers/index.ts            Carrier registry
-docs/SPEC.md                     This file
-docs/WORKLOG.md                  Step-by-step build log
+app/page.tsx                         Page entry
+app/error.tsx                        Error page
+components/quote/quote-demo.tsx      Sample profile switcher and today's date
+components/quote/quote-flow.tsx      Chooses the screen: form, refusal or success
+components/quote/use-quote-form.ts   Customer state and actions
+components/quote/quote-form.tsx      The form screen
+components/quote/field-control.tsx   Renders any carrier field from its JSON type
+components/quote/ineligible-screen.tsx
+components/quote/success-screen.tsx
+lib/types.ts                         Profile, form definition, field resolution types
+lib/profiles.ts                      Sample profiles
+lib/engine/resolve.ts                Profile + form + mapping -> field resolutions
+lib/engine/quote-state.ts            Answers -> groups, progress, errors, refusal reasons
+lib/engine/visibility.ts             Evaluates showIf
+lib/engine/validate.ts               Required, pattern, min, option and custom rules
+lib/engine/eligibility.ts            Returns every reason a carrier can't quote
+lib/engine/build-request.ts          Final answers -> carrier request
+lib/engine/converters.ts             Shared converters: dates, state names, age
+lib/engine/display.ts                Value formatting and the date mask
+lib/carriers/harbor/form.json        Carrier form, unchanged
+lib/carriers/harbor/mapping.ts       Harbor mapping
+lib/carriers/index.ts                Carrier registry
+e2e/                                 Browser and accessibility tests
+docs/SPEC.md                         This file
+docs/WORKLOG.md                      Step-by-step build log
 ```
+
+### Dependency rules
+
+- `lib/carriers` may use `lib/engine`. `lib/engine` never imports a carrier, except in tests.
+- `lib/engine` has no React and no hidden clock.
+- `components/quote` shows state and holds interaction state; business rules stay in `lib/`.
+- Only `quote-demo.tsx` knows which carrier and profiles are used.
 
 ## 6. Core model
 
@@ -343,9 +360,19 @@ Each step is one commit, with a `docs/WORKLOG.md` entry in the same commit.
 9. End-to-end tests
 10. README, final review against this spec
 
+Follow-up steps after the first version:
+
+11. Engine hardening, with a second fake carrier in tests
+12. Accessibility and stability: axe checks, focus handling, error page
+13. Performance: prerender the real form, measure with Lighthouse
+14. Visual polish and CI
+15. Move derived state into the engine
+16. Split the UI: a hook for state, one file per screen
+17. Push and confirm CI passes
+
 ## 17. Definition of done
 
-- `pnpm test`, `pnpm lint`, `pnpm typecheck` and `pnpm build` all pass
+- `pnpm test`, `pnpm test:e2e`, `pnpm lint`, `pnpm typecheck` and `pnpm build` all pass, locally and in CI
 - Both sample profiles behave as section 12 says, checked in a browser
 - No Harbor field names in the renderer or generic engine
 - Keyboard-only run works; layout holds at 360px width

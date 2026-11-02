@@ -10,19 +10,19 @@ Practice take-home: connect a standard customer profile to a fictional carrier's
 - Engine functions are pure and take `today` as a parameter. No React and no hidden clock in `lib/engine/`.
 - Do not edit `lib/carriers/harbor/form.json`; it is the carrier's input.
 - Use the current stable versions. Check the installed Next.js docs in `node_modules/next/dist/docs/` before using an API you aren't sure of.
+- Business rules go in `lib/`, with unit tests. Components show state and handle interaction (SPEC section 5).
 - Do not add a backend, database, auth or Docker. They are out of scope.
 
 ## Workflow
 
-- Work through SPEC section 16 one step at a time. Write engine tests before the code.
+- Follow SPEC section 16 one step at a time, and add new steps there. Write engine tests before the code.
 - One step, one commit, with a short plain commit message.
 - In the same commit, add a `docs/WORKLOG.md` entry: what we did, how, and how it was checked. Keep it short and record only what really happened, including mistakes the review caught.
 - Before committing, run `pnpm test`, `pnpm lint` and `pnpm typecheck`. Check UI changes in a real browser, on desktop and mobile widths.
-- Do not push unless asked.
 
 ## Commands
 
-Added as the project is set up: `pnpm dev`, `pnpm test`, `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm test:e2e`.
+`pnpm dev`, `pnpm test`, `pnpm lint`, `pnpm typecheck`, `pnpm build`, `pnpm test:e2e`.
 
 ## Writing style
 

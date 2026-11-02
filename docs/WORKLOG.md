@@ -82,7 +82,7 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 
 ## 14. Visual polish and CI
 
-- What: Added a progress bar, "Closest" labels on coverage options, "Complete" marks on groups, a "Done" button when editing, and a GitHub Actions workflow.
+- What: Added a progress bar, "Closest" labels on coverage options, "Complete" marks on groups and a "Done" button when editing.
 - How: Reviewed screenshots after the change. They showed "Assurance" hard-coded in the generic form, so the full carrier name moved into the Harbor mapping.
 - Check: Unit tests, lint, typecheck, and browser tests repeated twice. One earlier browser test run failed because the local server process crashed on start (exit code 3221226505). It did not happen again, and the cause is unknown.
 
@@ -92,3 +92,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - How: Reviewed the structure: this logic only had browser coverage because it lived in the UI.
 - Check: Added unit tests for groups, progress, hidden fields and the date mask. 81 unit tests pass.
 
+## 16. Split the UI
+
+- What: Replaced one large component with a state hook, a screen chooser and one file per screen. Split field controls into choice and input fields. Updated the spec with the structure and dependency rules.
+- How: A refactor with no intended behavior change, so the existing browser tests are the safety net.
+- Check: Unit tests, browser tests, axe, lint and typecheck pass. A search confirms no Harbor names in `components/` or `lib/engine/` outside the demo entry and tests.
+- Slip: A failed shell command once left a broken local commit. A typecheck caught it, and I redid the commit before anything was pushed.

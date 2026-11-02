@@ -65,7 +65,6 @@ The carrier's knowledge lives only in `lib/carriers/harbor/`. The engine in `lib
 
 - Unit tests cover the engine and mapping, including a second fake carrier that needs no engine changes.
 - Browser tests run on a production build, on desktop and mobile sizes, with axe accessibility checks on every screen.
-- GitHub Actions runs lint, typecheck, unit tests, build and browser tests on each push.
 - Not done: testing with a real screen reader.
 
 ## Build log
