@@ -68,4 +68,6 @@ export function nearestOptions(value: number, options: number[]): number[] {
 
 export const joinList = (items: string[]): string => (items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`);
 
+export const isEmailLike = (value: unknown): boolean => typeof value === "string" && /^\S+@\S+\.\S+$/.test(value);
+
 export const formatUsd = (amount: number): string => `$${amount.toLocaleString("en-US")}`;

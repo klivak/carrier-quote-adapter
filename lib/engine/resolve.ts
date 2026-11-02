@@ -9,4 +9,6 @@ export function resolveFields(form: CarrierForm, mapping: CarrierMapping, profil
   });
 }
 
+export const indexResolutions = (resolutions: FieldResolution[]): Record<string, FieldResolution> => Object.fromEntries(resolutions.map((resolution) => [resolution.key, resolution]));
+
 export const initialAnswers = (resolutions: FieldResolution[]) => Object.fromEntries(resolutions.filter((resolution) => resolution.value !== undefined).map((resolution) => [resolution.key, resolution.value]));

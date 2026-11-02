@@ -1,4 +1,4 @@
-import { formatUsd, isoToCarrierDate, nearestOptions, stateName } from "@/lib/engine/converters";
+import { formatUsd, isEmailLike, isoToCarrierDate, nearestOptions, stateName } from "@/lib/engine/converters";
 import type { CarrierMapping, Profile, Resolved } from "@/lib/types";
 
 const hasText = (value: unknown): value is string => typeof value === "string" && value.trim() !== "";
@@ -53,7 +53,7 @@ export const harborMapping: CarrierMapping = {
     },
     contact_email: {
       source: ["email"],
-      resolve: (profile) => (hasText(profile.email) && /^\S+@\S+\.\S+$/.test(profile.email) ? { status: "direct", value: profile.email } : ask()),
+      resolve: (profile) => (isEmailLike(profile.email) ? { status: "direct", value: profile.email } : ask()),
     },
     phone: { source: [], resolve: () => ask() },
     residence_state: {

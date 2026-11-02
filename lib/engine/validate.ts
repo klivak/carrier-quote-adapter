@@ -1,5 +1,5 @@
 import type { Answers, CarrierForm, CarrierMapping, FieldDefinition, OptionValue, Profile } from "@/lib/types";
-import { carrierDateToIso } from "./converters";
+import { carrierDateToIso, isEmailLike } from "./converters";
 import { isVisible } from "./visibility";
 
 export const isEmpty = (value: unknown): boolean => value === undefined || value === null || (typeof value === "string" && value.trim() === "") || (Array.isArray(value) && value.length === 0);
@@ -14,14 +14,12 @@ function requiredMessage(field: FieldDefinition): string {
 function formatError(field: FieldDefinition, value: unknown, patternMessage?: string): string | null {
   switch (field.type) {
     case "email":
-      return /^\S+@\S+\.\S+$/.test(String(value)) ? null : "Enter an email like name@example.com";
-    case "tel":
-      {
+      return isEmailLike(value) ? null : "Enter an email like name@example.com";
+    case "tel": {
       const digits = String(value).replace(/\D/g, "").length;
       return digits >= 10 && digits <= 15 ? null : "Enter a phone number with 10 to 15 digits";
     }
-    case "date":
-      {
+    case "date": {
       const iso = carrierDateToIso(value);
       return iso && iso >= "1900-01-01" ? null : "Enter a real date as MM/DD/YYYY";
     }

@@ -85,3 +85,10 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Added a progress bar, "Closest" labels on coverage options, "Complete" marks on groups, a "Done" button when editing, and a GitHub Actions workflow.
 - How: Reviewed screenshots after the change. They showed "Assurance" hard-coded in the generic form, so the full carrier name moved into the Harbor mapping.
 - Check: Unit tests, lint, typecheck, and browser tests repeated twice. One earlier browser test run failed because the local server process crashed on start (exit code 3221226505). It did not happen again, and the cause is unknown.
+
+## 15. Move derived state into the engine
+
+- What: Moved grouping, progress and the remaining count out of the React component, into a pure `deriveQuoteState`. Moved display helpers out too, and shared one email check.
+- How: Reviewed the structure: this logic only had browser coverage because it lived in the UI.
+- Check: Added unit tests for groups, progress, hidden fields and the date mask. 81 unit tests pass.
+
