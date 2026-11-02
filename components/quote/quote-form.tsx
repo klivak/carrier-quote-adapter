@@ -40,7 +40,7 @@ export function QuoteForm({ form, mapping, quote }: Props) {
       <div key={key} className="py-4">
         {renderControl(field, quote.isEditing(key) && !blocked)}
         {!blocked && !state.errors[key] && (
-          <Button type="button" variant="ghost" className="mt-2 h-11" onClick={() => quote.setEditingField(key, false)}>Done</Button>
+          <Button type="button" variant="outline" className="mt-2 h-11 px-5" onClick={() => quote.setEditingField(key, false)}>Done</Button>
         )}
       </div>
     );
@@ -53,7 +53,7 @@ export function QuoteForm({ form, mapping, quote }: Props) {
           <p className="flex items-center gap-1.5 text-sm font-medium text-primary"><ShieldCheck aria-hidden className="size-4" /> {mapping.carrierFullName ?? carrierName}</p>
           <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">Your {carrierName} {form.product} quote</h1>
           <p aria-live="polite" className="mt-1 text-muted-foreground">
-            {state.remaining === 0 ? "Everything is ready. Check it over and continue." : `${state.remaining} ${state.remaining === 1 ? "answer" : "answers"} left. We filled in the rest from your profile.`}
+            {state.reasons.length > 0 ? `Correct the ${state.reasons.length === 1 ? "detail" : "details"} below to continue.` : state.remaining === 0 ? "Everything is ready. Check it over and continue." : `${state.remaining} ${state.remaining === 1 ? "answer" : "answers"} left. We filled in the rest from your profile.`}
           </p>
           <div aria-hidden className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted">
             <div className="h-full rounded-full bg-primary transition-[width] duration-300" style={{ width: `${state.progress}%` }} />
@@ -82,7 +82,7 @@ export function QuoteForm({ form, mapping, quote }: Props) {
           </div>
         )}
 
-        {state.groups.map((group) => (
+        {quote.groups.map((group) => (
           <section key={group.id} aria-labelledby={`group-${group.id}`} className="rounded-xl border bg-card p-5 shadow-sm">
             <h2 id={`group-${group.id}`} className="flex items-center justify-between gap-2 text-base font-semibold">
               {GROUP_TITLES[group.id]}

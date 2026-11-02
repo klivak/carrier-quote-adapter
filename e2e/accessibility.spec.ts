@@ -29,7 +29,7 @@ test("the refusal has no violations, and Fix moves focus to a field", async ({ p
   await page.getByText("Profile B: Sam Lee").click();
   await noViolations(page);
   await page.getByRole("button", { name: "Fix my details" }).click();
-  await expect(page.locator("#field-residence_state input").first()).toBeFocused();
+  await expect(page.getByLabel("Birth date")).toBeFocused();
   await noViolations(page);
 });
 

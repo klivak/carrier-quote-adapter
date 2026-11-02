@@ -93,9 +93,9 @@ function ChoiceField(props: Props) {
         <Optional field={field} />
       </legend>
       <Hint id={ids.hint} text={resolution?.reason} />
-      <div className={cn("mt-2.5 grid gap-2", choices.length >= 4 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2 sm:grid-cols-3")}>
+      <div className={cn("mt-2.5 grid gap-2", choices.length === 3 ? "grid-cols-3" : "grid-cols-2 sm:grid-cols-4")}>
         {choices.map((choice, index) => (
-          <label key={choice.key} className={cn("relative flex min-h-11 cursor-pointer flex-col justify-center rounded-lg border bg-card px-3 py-2 text-sm transition-colors hover:border-primary/60 has-focus-visible:ring-3 has-focus-visible:ring-ring/50", choice.checked ? "border-primary bg-primary/5 font-semibold" : "border-input", choice.closest && !choice.checked && "border-primary/50")}>
+          <label key={choice.key} className={cn("relative flex min-h-11 cursor-pointer flex-col justify-start rounded-lg border bg-card px-3 py-2.5 text-sm transition-colors hover:border-primary/60 has-focus-visible:ring-3 has-focus-visible:ring-ring/50", choice.checked ? "border-primary bg-primary/5 font-semibold" : "border-input", choice.closest && !choice.checked && "border-primary/50")}>
             <input type={multi ? "checkbox" : "radio"} name={ids.root} className="sr-only" checked={choice.checked} onChange={choice.pick} autoFocus={autoFocus && index === 0} />
             <span className="flex items-center justify-between gap-2">
               {choice.label}

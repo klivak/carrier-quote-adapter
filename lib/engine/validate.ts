@@ -8,6 +8,7 @@ const lowerFirst = (text: string) => text.charAt(0).toLowerCase() + text.slice(1
 
 function requiredMessage(field: FieldDefinition): string {
   if (field.type === "multiselect" || field.type === "select" || field.type === "boolean") return "Choose an option";
+  if (field.type === "number") return "Enter a number";
   return `Enter your ${lowerFirst(field.label)}`;
 }
 

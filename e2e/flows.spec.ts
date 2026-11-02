@@ -32,6 +32,25 @@ test("Sam can correct stale details and finish, with the claims lower bound enfo
   expect(request).not.toHaveProperty("dog_breed");
 });
 
+test("while fixing a refusal, the fields to correct come first and stay in place", async ({ page }) => {
+  await page.getByText("Profile B: Sam Lee").click();
+  await page.getByRole("button", { name: "Fix my details" }).click();
+  await expect(page.getByText("Correct the details below to continue.")).toBeVisible();
+  await expect(page.locator("section h2").first()).toContainText("From your profile");
+  const date = page.getByLabel("Birth date");
+  await date.fill("01/20/1990");
+  await expect(date).toBeFocused();
+  await page.locator("#field-residence_state").getByText("Oregon", { exact: true }).click();
+  await expect(page.locator("section h2").first()).toContainText("From your profile");
+  await expect(page.getByLabel("Birth date")).toBeVisible();
+});
+
+test("three options share one row on a phone", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  const tops = await page.locator("#field-building_has_sprinklers label").evaluateAll((labels) => labels.map((label) => label.getBoundingClientRect().top));
+  expect(new Set(tops).size).toBe(1);
+});
+
 test("the date mask adds slashes and a bad date is explained", async ({ page }) => {
   await page.getByRole("button", { name: "Edit Birth date" }).click();
   const date = page.getByLabel("Birth date");

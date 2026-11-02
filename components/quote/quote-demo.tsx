@@ -28,11 +28,11 @@ export function QuoteDemo() {
 
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-10">
-      <fieldset className="mb-8 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-dashed bg-card/60 px-4 py-3">
+      <fieldset className="mb-8 grid grid-cols-2 items-center gap-2 rounded-xl border border-dashed bg-card/60 p-3 sm:flex sm:gap-3 sm:px-4">
         <legend className="sr-only">Choose a sample customer</legend>
-        <span aria-hidden className="text-sm text-muted-foreground">Demo data:</span>
+        <span aria-hidden className="col-span-2 text-sm text-muted-foreground">Demo data:</span>
         {PROFILES.map((item) => (
-          <label key={item.id} className={cn("flex min-h-11 cursor-pointer items-center rounded-lg border px-3 text-sm has-focus-visible:ring-3 has-focus-visible:ring-ring/50", selected.id === item.id ? "border-primary bg-primary/5 font-semibold" : "border-input bg-card")}>
+          <label key={item.id} className={cn("flex min-h-11 cursor-pointer items-center rounded-lg border px-3 py-1.5 text-sm has-focus-visible:ring-3 has-focus-visible:ring-ring/50", selected.id === item.id ? "border-primary bg-primary/5 font-semibold" : "border-input bg-card")}>
             <input type="radio" name="sample-profile" className="sr-only" checked={selected.id === item.id} onChange={() => setSelected(item)} />
             {item.label}: {item.profile.first_name} {item.profile.last_name}
           </label>

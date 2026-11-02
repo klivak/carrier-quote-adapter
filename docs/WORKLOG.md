@@ -104,3 +104,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Added browser tests for full flows and edge cases, Harbor invariants checked across 12 profile variants, and two project skills: `add-carrier` and `quality-check`.
 - How: Used the React best practices and accessibility guides as checklists. The accessibility guide led to the reduced motion, focus and zoom-width tests.
 - Check: A new test found a real bug: an error appearing on blur moved the page during a mouse press, so the first click on an option was lost. Errors now wait until the press ends. Code review was not run in this step.
+
+## 18. Visual review
+
+- What: Reviewed every screen at phone, tablet and desktop widths with a small Playwright script, `e2e/visual-review.mjs`.
+- How: Compared screenshots and fixed what looked wrong. The fields to correct were at the bottom of the page after pressing Fix, so that group now comes first. Also aligned text in option cards, kept three options on one row on phones, shortened the number error, made the Done button clearer and tidied the demo bar on phones.
+- Check: Added browser tests for the new order and the three-option row, then ran all checks.
