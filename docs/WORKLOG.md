@@ -73,3 +73,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Added automated axe checks on all four screens, proper radio group roles, focus handling between screens, a clipboard failure message and an error page.
 - How: Browser tests now run on a production build, not the dev server.
 - Check: Axe found one real problem: the error summary links were too small a target (WCAG 2.2). Fixed. This is automated checking only, and it has not been tested with a real screen reader.
+
+## 13. Performance
+
+- What: The first HTML now contains the real form, not a loading placeholder. Removed an unused font.
+- How: The date is only known in the browser, so the static HTML uses a fixed date, and React switches to the real date right after hydration. The default profile's result doesn't depend on the exact day.
+- Check: Lighthouse on a local production build, mobile preset: performance 84 to 95, LCP 3.3 s to 0.8 s, CLS 0.008, with accessibility, best practices and SEO at 100. Desktop preset: performance 100. These are single local runs.

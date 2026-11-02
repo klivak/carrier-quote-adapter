@@ -26,7 +26,9 @@ export function QuoteFlow({ form, mapping, profile, today }: Props) {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [editing, setEditing] = useState<Record<string, boolean>>({});
   const [attempts, setAttempts] = useState(0);
-  const [blocked, setBlocked] = useState(() => checkEligibility(form, mapping, answers, today).length > 0);
+  const [fixing, setFixing] = useState(false);
+  // Derived from the date on each render, so it stays right when the real date replaces the prerender date.
+  const blocked = !fixing && checkEligibility(form, mapping, initialAnswers(Object.values(resolutions)), today).length > 0;
   const [request, setRequest] = useState<Record<string, unknown> | null>(null);
 
   const reasons = checkEligibility(form, mapping, answers, today);
@@ -45,7 +47,7 @@ export function QuoteFlow({ form, mapping, profile, today }: Props) {
           // Keep these fields open after they become valid, so they don't collapse mid-edit.
           setEditing(Object.fromEntries(reasons.map((reason) => [reason.field, true])));
           // The refusal screen is about to disappear, so move focus to the first field to correct.
-          flushSync(() => setBlocked(false));
+          flushSync(() => setFixing(true));
           document.querySelector<HTMLElement>(`#field-${reasons[0]?.field} :is(input, select)`)?.focus();
         }} />;
 

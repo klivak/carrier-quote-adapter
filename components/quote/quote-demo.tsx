@@ -13,6 +13,9 @@ const PROFILES = [
 
 const subscribeNever = () => () => {};
 
+// The static HTML is built without knowing the visitor's date. It only renders the default profile, whose result doesn't depend on the exact day, and React switches to the real date right after hydration.
+const PRERENDER_DATE = "2026-11-05";
+
 function localToday(): string {
   const now = new Date();
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
@@ -21,7 +24,7 @@ function localToday(): string {
 export function QuoteDemo() {
   const [selected, setSelected] = useState(PROFILES[0]);
   // The customer's own date is only known in the browser. The engine receives it as a parameter.
-  const today = useSyncExternalStore(subscribeNever, localToday, () => null);
+  const today = useSyncExternalStore(subscribeNever, localToday, () => PRERENDER_DATE);
 
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-10">
@@ -35,7 +38,7 @@ export function QuoteDemo() {
           </label>
         ))}
       </fieldset>
-      {today ? <QuoteFlow key={selected.id} form={harbor.form} mapping={harbor.mapping} profile={selected.profile} today={today} /> : <div aria-hidden className="h-96 animate-pulse rounded-xl bg-muted motion-reduce:animate-none" />}
+      <QuoteFlow key={selected.id} form={harbor.form} mapping={harbor.mapping} profile={selected.profile} today={today} />
     </main>
   );
 }
