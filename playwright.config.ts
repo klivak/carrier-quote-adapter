@@ -7,5 +7,5 @@ export default defineConfig({
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "mobile", use: { ...devices["Pixel 7"] } },
   ],
-  webServer: { command: "pnpm dev --port 3417", url: "http://localhost:3417", reuseExistingServer: true },
+  webServer: { command: "pnpm build && pnpm start --port 3417", url: "http://localhost:3417", reuseExistingServer: true, timeout: 180000 },
 });

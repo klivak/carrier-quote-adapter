@@ -86,7 +86,17 @@ export function FieldControl({ field, resolution, value, error, exclusive, autoF
           }));
 
     return (
-      <fieldset id={id} aria-describedby={describedBy} aria-invalid={Boolean(error)} onBlur={onBlur}>
+      <fieldset
+        id={id}
+        role={multi ? "group" : "radiogroup"}
+        aria-describedby={describedBy}
+        aria-required={!multi && field.required ? true : undefined}
+        aria-invalid={!multi && error ? true : undefined}
+        // Moving between options in the group shouldn't count as leaving the question.
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) onBlur();
+        }}
+      >
         <legend className="text-sm font-semibold">
           {field.label}
           {optional}
@@ -117,7 +127,7 @@ export function FieldControl({ field, resolution, value, error, exclusive, autoF
       </label>
       {hint}
       {field.type === "select" ? (
-        <select id={`${id}-input`} value={String(value ?? "")} aria-describedby={describedBy} aria-invalid={Boolean(error)} autoFocus={autoFocus} onBlur={onBlur} className="mt-2 h-11 w-full rounded-lg border border-input bg-card px-3 text-base" onChange={(event) => onChange(field.options?.find((option) => String(option) === event.target.value) ?? "")}>
+        <select id={`${id}-input`} value={String(value ?? "")} aria-describedby={describedBy} aria-required={field.required} aria-invalid={Boolean(error)} autoFocus={autoFocus} onBlur={onBlur} className="mt-2 h-11 w-full rounded-lg border border-input bg-card px-3 text-base" onChange={(event) => onChange(field.options?.find((option) => String(option) === event.target.value) ?? "")}>
           <option value="">Choose...</option>
           {field.options?.map((option) => (
             <option key={option} value={String(option)}>
@@ -126,7 +136,7 @@ export function FieldControl({ field, resolution, value, error, exclusive, autoF
           ))}
         </select>
       ) : (
-        <Input id={`${id}-input`} {...INPUT_PROPS[field.type]} value={String(value ?? "")} aria-describedby={describedBy} aria-invalid={Boolean(error)} autoFocus={autoFocus} onBlur={onBlur} className="mt-2 h-11 bg-card text-base md:text-base" onChange={(event) => onChange(field.type === "date" ? maskDate(event.target.value) : event.target.value)} />
+        <Input id={`${id}-input`} {...INPUT_PROPS[field.type]} value={String(value ?? "")} aria-describedby={describedBy} aria-required={field.required} aria-invalid={Boolean(error)} autoFocus={autoFocus} onBlur={onBlur} className="mt-2 h-11 bg-card text-base md:text-base" onChange={(event) => onChange(field.type === "date" ? maskDate(event.target.value) : event.target.value)} />
       )}
       {footer}
     </div>

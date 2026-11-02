@@ -67,3 +67,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Added tests for messy input, eligibility boundaries and a second fake carrier.
 - How: Wrote the tests first and watched them fail. Fixed spaces counting as answers, `0x10` and `1e2` passing as numbers, very long phone numbers and birth years before 1900.
 - Check: The fake carrier builds a request with no engine changes, which backs up the 50-carrier claim with a test.
+
+## 12. Accessibility and stability
+
+- What: Added automated axe checks on all four screens, proper radio group roles, focus handling between screens, a clipboard failure message and an error page.
+- How: Browser tests now run on a production build, not the dev server.
+- Check: Axe found one real problem: the error summary links were too small a target (WCAG 2.2). Fixed. This is automated checking only, and it has not been tested with a real screen reader.

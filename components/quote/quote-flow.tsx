@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertTriangle, Ban, CheckCircle2, Copy, Pencil } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { buildRequest, serializeAnswers } from "@/lib/engine/build-request";
@@ -44,7 +44,9 @@ export function QuoteFlow({ form, mapping, profile, today }: Props) {
   if (blocked) return <Ineligible reasons={reasons} carrierName={mapping.carrierName} product={form.product} onFix={() => {
           // Keep these fields open after they become valid, so they don't collapse mid-edit.
           setEditing(Object.fromEntries(reasons.map((reason) => [reason.field, true])));
-          setBlocked(false);
+          // The refusal screen is about to disappear, so move focus to the first field to correct.
+          flushSync(() => setBlocked(false));
+          document.querySelector<HTMLElement>(`#field-${reasons[0]?.field} :is(input, select)`)?.focus();
         }} />;
 
   const invalidFields = attempts > 0 ? orderedFields.filter((field) => errors[field.key]) : [];
@@ -79,10 +81,10 @@ export function QuoteFlow({ form, mapping, profile, today }: Props) {
         {invalidFields.length > 0 && (
           <div role="alert" className="rounded-xl border border-destructive/40 bg-destructive/5 p-4">
             <p className="font-semibold">Please fix {invalidFields.length === 1 ? "this field" : `these ${invalidFields.length} fields`}</p>
-            <ul className="mt-1 list-inside list-disc text-sm">
+            <ul className="mt-1 list-inside list-disc space-y-1 text-sm">
               {invalidFields.map((field) => (
                 <li key={field.key}>
-                  <a href={`#field-${field.key}`} className="underline underline-offset-2">{field.label}</a>
+                  <a href={`#field-${field.key}`} className="inline-block py-1 underline underline-offset-2">{field.label}</a>
                 </li>
               ))}
             </ul>
@@ -167,22 +169,28 @@ function Ineligible({ reasons, carrierName, product, onFix }: { reasons: Ineligi
 
 function Success({ request, carrierName, onBack }: { request: Record<string, unknown>; carrierName: string; onBack: () => void }) {
   const json = JSON.stringify(request, null, 2);
-  const [copied, setCopied] = useState(false);
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => headingRef.current?.focus(), []);
   return (
     <section className="mx-auto max-w-2xl rounded-xl border bg-card p-6 shadow-sm">
       <CheckCircle2 aria-hidden className="size-8 text-primary" />
-      <h1 className="mt-3 text-2xl font-semibold tracking-tight">Your request is ready</h1>
+      <h1 ref={headingRef} tabIndex={-1} className="mt-3 text-2xl font-semibold tracking-tight outline-none">Your request is ready</h1>
       <p className="mt-1 text-muted-foreground">This demo doesn&apos;t call {carrierName}. This is the exact request it would send.</p>
       <pre tabIndex={0} data-testid="final-request" className="mt-4 overflow-auto rounded-lg bg-muted p-4 text-sm">{json}</pre>
       <Button
         variant="outline"
         className="mt-3 h-11"
         onClick={async () => {
-          await navigator.clipboard.writeText(json);
-          setCopied(true);
+          try {
+            await navigator.clipboard.writeText(json);
+            setCopyState("copied");
+          } catch {
+            setCopyState("failed");
+          }
         }}
       >
-        <Copy aria-hidden /> {copied ? "Copied" : "Copy JSON"}
+        <Copy aria-hidden /> <span aria-live="polite">{{ idle: "Copy JSON", copied: "Copied", failed: "Couldn't copy. Please select the text." }[copyState]}</span>
       </Button>
       <Button variant="ghost" className="ml-2 mt-3 h-11" onClick={onBack}>Change my answers</Button>
     </section>
