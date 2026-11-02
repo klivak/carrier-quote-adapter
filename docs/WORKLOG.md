@@ -110,3 +110,8 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Reviewed every screen at phone, tablet and desktop widths with a small Playwright script, `e2e/visual-review.mjs`.
 - How: Compared screenshots and fixed what looked wrong. The fields to correct were at the bottom of the page after pressing Fix, so that group now comes first. Also aligned text in option cards, kept three options on one row on phones, shortened the number error, made the Done button clearer and tidied the demo bar on phones.
 - Check: Added browser tests for the new order and the three-option row, then ran all checks.
+
+## 19. CI
+
+- What: Added a GitHub Actions workflow for lint, typecheck, unit tests, build and browser tests.
+- How: Added in its own commit, because pushing workflow files needs an extra token permission.
