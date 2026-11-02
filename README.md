@@ -61,6 +61,13 @@ The carrier's knowledge lives only in `lib/carriers/harbor/`. The engine in `lib
 - Shared questions across carriers, so one answer can serve several quotes
 - AI agents can draft a new mapping from a carrier's JSON, while tests and human review decide what ships
 
+## Quality checks
+
+- Unit tests cover the engine and mapping, including a second fake carrier that needs no engine changes.
+- Browser tests run on a production build, on desktop and mobile sizes, with axe accessibility checks on every screen.
+- GitHub Actions runs lint, typecheck, unit tests, build and browser tests on each push.
+- Not done: testing with a real screen reader.
+
 ## Build log
 
 See `docs/WORKLOG.md` for each step and `docs/SPEC.md` for the full specification.

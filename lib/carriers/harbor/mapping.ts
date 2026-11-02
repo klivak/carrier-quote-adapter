@@ -36,6 +36,7 @@ function resolveBreed(profile: Profile, options: string[]): Resolved {
 
 export const harborMapping: CarrierMapping = {
   carrierName: "Harbor",
+  carrierFullName: "Harbor Assurance",
   eligibility: { birthDateField: "date_of_birth", stateField: "residence_state" },
   exclusiveOptions: { pets: ["None"] },
   fields: {

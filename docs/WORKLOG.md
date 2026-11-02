@@ -79,3 +79,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: The first HTML now contains the real form, not a loading placeholder. Removed an unused font.
 - How: The date is only known in the browser, so the static HTML uses a fixed date, and React switches to the real date right after hydration. The default profile's result doesn't depend on the exact day.
 - Check: Lighthouse on a local production build, mobile preset: performance 84 to 95, LCP 3.3 s to 0.8 s, CLS 0.008, with accessibility, best practices and SEO at 100. Desktop preset: performance 100. These are single local runs.
+
+## 14. Visual polish and CI
+
+- What: Added a progress bar, "Closest" labels on coverage options, "Complete" marks on groups, a "Done" button when editing, and a GitHub Actions workflow.
+- How: Reviewed screenshots after the change. They showed "Assurance" hard-coded in the generic form, so the full carrier name moved into the Harbor mapping.
+- Check: Unit tests, lint, typecheck, and browser tests repeated twice. One earlier browser test run failed because the local server process crashed on start (exit code 3221226505). It did not happen again, and the cause is unknown.

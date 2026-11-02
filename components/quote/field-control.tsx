@@ -110,7 +110,8 @@ export function FieldControl({ field, resolution, value, error, exclusive, autoF
                 {choice.label}
                 {choice.checked && <Check aria-hidden className="size-4 shrink-0 text-primary" />}
               </span>
-              {choice.note && <span className="mt-0.5 text-xs font-normal text-muted-foreground">{choice.note}</span>}
+              {choice.closest && <span className="mt-1 w-fit rounded bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">Closest</span>}
+              {choice.note && <span className="mt-1 text-xs font-normal text-muted-foreground">{choice.note}</span>}
             </label>
           ))}
         </div>

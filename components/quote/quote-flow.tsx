@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, Ban, CheckCircle2, Copy, Pencil } from "lucide-react";
+import { AlertTriangle, Ban, Check, CheckCircle2, Copy, Pencil, ShieldCheck } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,7 @@ export function QuoteFlow({ form, mapping, profile, today }: Props) {
   const groups = GROUPS.map((group) => ({ ...group, fields: visibleFields.filter((field) => (group.statuses as readonly string[]).includes(resolutions[field.key].status)) }));
   const orderedFields = groups.flatMap((group) => group.fields);
   const remaining = visibleFields.filter((field) => field.required && (isEmpty(answers[field.key]) || errors[field.key])).length;
+  const requiredCount = Math.max(visibleFields.filter((field) => field.required).length, 1);
   const blockedFields = new Set(reasons.map((reason) => reason.field));
 
   const shownError = (key: string) => (touched[key] || attempts > 0 ? (errors[key] ?? null) : null);
@@ -74,10 +75,14 @@ export function QuoteFlow({ form, mapping, profile, today }: Props) {
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
       <form onSubmit={submit} noValidate className="space-y-6">
         <header>
-          <h1 className="text-2xl font-semibold tracking-tight">Your {mapping.carrierName} {form.product} quote</h1>
+          <p className="flex items-center gap-1.5 text-sm font-medium text-primary"><ShieldCheck aria-hidden className="size-4" /> {mapping.carrierFullName ?? mapping.carrierName}</p>
+          <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">Your {mapping.carrierName} {form.product} quote</h1>
           <p aria-live="polite" className="mt-1 text-muted-foreground">
             {remaining === 0 ? "Everything is ready. Check it over and continue." : `${remaining} ${remaining === 1 ? "answer" : "answers"} left. We filled in the rest from your profile.`}
           </p>
+          <div aria-hidden className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted">
+            <div className="h-full rounded-full bg-primary transition-[width] duration-300" style={{ width: `${Math.round(((requiredCount - remaining) / requiredCount) * 100)}%` }} />
+          </div>
         </header>
 
         {invalidFields.length > 0 && (
@@ -99,14 +104,24 @@ export function QuoteFlow({ form, mapping, profile, today }: Props) {
           (group) =>
             group.fields.length > 0 && (
               <section key={group.id} aria-labelledby={`group-${group.id}`} className="rounded-xl border bg-card p-5 shadow-sm">
-                <h2 id={`group-${group.id}`} className="text-base font-semibold">{group.title}</h2>
+                <h2 id={`group-${group.id}`} className="flex items-center justify-between gap-2 text-base font-semibold">
+                  {group.title}
+                  {group.fields.every((field) => !errors[field.key] && (!field.required || !isEmpty(answers[field.key]))) && (
+                    <span className="flex items-center gap-1 text-sm font-medium text-muted-foreground"><Check aria-hidden className="size-4 text-primary" /> Complete</span>
+                  )}
+                </h2>
                 <div className={group.id === "profile" ? "mt-2 divide-y" : "mt-4 space-y-6"}>
                   {group.fields.map((field) => {
                     const resolution = resolutions[field.key];
                     if (group.id !== "profile") return <div key={field.key}>{renderControl(field, resolution)}</div>;
                     const open = editing[field.key] || blockedFields.has(field.key) || Boolean(shownError(field.key));
                     return open ? (
-                      <div key={field.key} className="py-4">{renderControl(field, resolution, Boolean(editing[field.key]) && !blockedFields.has(field.key))}</div>
+                      <div key={field.key} className="py-4">
+                        {renderControl(field, resolution, Boolean(editing[field.key]) && !blockedFields.has(field.key))}
+                        {!blockedFields.has(field.key) && !errors[field.key] && (
+                          <Button type="button" variant="ghost" className="mt-2 h-11" onClick={() => setEditing((current) => ({ ...current, [field.key]: false }))}>Done</Button>
+                        )}
+                      </div>
                     ) : (
                       <div key={field.key} id={`field-${field.key}`} className="flex items-center justify-between gap-3 py-2.5">
                         <div className="min-w-0">

@@ -58,6 +58,7 @@ export type FieldMapping = {
 
 export type CarrierMapping = {
   carrierName: string;
+  carrierFullName?: string;
   fields: Record<string, FieldMapping>;
   exclusiveOptions?: Record<string, OptionValue[]>;
   eligibility: { birthDateField: string; stateField: string };
