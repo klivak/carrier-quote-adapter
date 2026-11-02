@@ -53,7 +53,7 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 ## 9. Browser tests
 
 - What: Added Playwright tests for Maya's full flow, Sam's refusal and correction, the dog toggle, keyboard use and a 360px layout.
-- How: The clock is fixed in tests, so Sam's result won't change after his birthday.
+- How: The clock is fixed in tests, so Sam's result won't change after Sam's birthday.
 - Check: These tests found a real bug the unit tests missed: after correcting Sam's state or birth date, the field collapsed mid-edit because it was only open while invalid. Fixed by keeping those fields open.
 
 ## 10. README and final check
