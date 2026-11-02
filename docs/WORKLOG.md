@@ -19,3 +19,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Added the shared types, Harbor's JSON unchanged, sample profiles, converters and the eligibility check.
 - How: Wrote the tests first. Dates are converted as strings to avoid timezone shifts, and the rules are read from the carrier JSON.
 - Check: Tests cover birthday boundaries, leap-day birthdays and Sam failing both rules at once.
+
+## 4. Field resolution and Harbor mapping
+
+- What: Gave each Harbor field a status: `direct`, `converted`, `needs_confirmation` or `ask`.
+- How: Wrote the tests first. All Harbor knowledge stays in `lib/carriers/harbor/mapping.ts`, and the engine throws if a form field has no mapping.
+- Check: Tests cover both sample profiles and edge cases: coverage extremes, unlisted breeds, dog fields that disagree and bad profile data.
