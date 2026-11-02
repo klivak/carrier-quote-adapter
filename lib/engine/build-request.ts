@@ -8,7 +8,7 @@ export function serializeAnswers(form: CarrierForm, answers: Answers): Record<st
   for (const field of form.fields) {
     const value = answers[field.key];
     if (!isVisible(field, answers) || isEmpty(value)) continue;
-    request[field.key] = field.type === "number" ? Number(value) : value;
+    request[field.key] = field.type === "number" ? Number(value) : typeof value === "string" ? value.trim() : value;
   }
   return request;
 }

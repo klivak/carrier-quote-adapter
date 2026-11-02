@@ -61,3 +61,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Wrote the README with assumptions, next steps and the 50-carrier approach.
 - How: Compared the result with the spec's definition of done.
 - Check: Ran tests, lint, typecheck and build, then installed and tested from a clean clone.
+
+## 11. Engine hardening
+
+- What: Added tests for messy input, eligibility boundaries and a second fake carrier.
+- How: Wrote the tests first and watched them fail. Fixed spaces counting as answers, `0x10` and `1e2` passing as numbers, very long phone numbers and birth years before 1900.
+- Check: The fake carrier builds a request with no engine changes, which backs up the 50-carrier claim with a test.

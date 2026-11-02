@@ -67,7 +67,7 @@ describe("validation", () => {
   it("checks dates, email, phone and numbers", () => {
     expect(errorsFor({ ...completeA, date_of_birth: "02/30/1994" }).date_of_birth).toBe("Enter a real date as MM/DD/YYYY");
     expect(errorsFor({ ...completeA, contact_email: "maya" }).contact_email).toContain("email");
-    expect(errorsFor({ ...completeA, phone: "123" }).phone).toContain("10 digits");
+    expect(errorsFor({ ...completeA, phone: "123" }).phone).toContain("10 to 15 digits");
     expect(errorsFor({ ...completeA, claims_last_5_years: "-1" }).claims_last_5_years).toBe("Must be 0 or more");
     expect(errorsFor({ ...completeA, claims_last_5_years: "1.5" }).claims_last_5_years).toBe("Enter a whole number");
     expect(errorsFor({ ...completeA, claims_last_5_years: "abc" }).claims_last_5_years).toBe("Enter a number");
