@@ -55,3 +55,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Added Playwright tests for Maya's full flow, Sam's refusal and correction, the dog toggle, keyboard use and a 360px layout.
 - How: The clock is fixed in tests, so Sam's result won't change after his birthday.
 - Check: These tests found a real bug the unit tests missed: after correcting Sam's state or birth date, the field collapsed mid-edit because it was only open while invalid. Fixed by keeping those fields open.
+
+## 10. README and final check
+
+- What: Wrote the README with assumptions, next steps and the 50-carrier approach.
+- How: Compared the result with the spec's definition of done.
+- Check: Ran tests, lint, typecheck and build, then installed and tested from a clean clone.
