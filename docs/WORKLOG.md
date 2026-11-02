@@ -13,3 +13,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Set up Next.js 16, TypeScript, Tailwind, shadcn/ui, Vitest and Playwright. Renamed the branch to `main`.
 - How: Generated the app with `create-next-app` in a temp folder, moved it to the repo root, then added shadcn/ui with its CLI.
 - Check: Checked the installed versions. `AGENTS.md` comes from the Next.js scaffold, and `next dev` re-creates it, so it stays in the repo.
+
+## 3. Types, converters and eligibility
+
+- What: Added the shared types, Harbor's JSON unchanged, sample profiles, converters and the eligibility check.
+- How: Wrote the tests first. Dates are converted as strings to avoid timezone shifts, and the rules are read from the carrier JSON.
+- Check: Tests cover birthday boundaries, leap-day birthdays and Sam failing both rules at once.
