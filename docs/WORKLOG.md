@@ -31,3 +31,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Added validation rules, `showIf` handling, the exclusive `None` rule and the final request builder.
 - How: Wrote the tests first. `buildRequest` validates first and throws, so an invalid request can't be built. Hidden fields are left out.
 - Check: The profile A request is compared with Harbor's exact format in a test. A failed typecheck showed that `next typegen` must run before `tsc`, so I added it to the script.
+
+## 6. Generic field controls
+
+- What: Added one control component that renders any carrier field from its JSON type.
+- How: Few options show as cards, more options as a native select. Dates get a typing mask. Each control has a real label, hints and errors linked with ARIA.
+- Check: The component has no Harbor field names. Checked later in the browser tests.
