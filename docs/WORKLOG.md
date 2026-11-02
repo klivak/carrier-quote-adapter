@@ -25,3 +25,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Gave each Harbor field a status: `direct`, `converted`, `needs_confirmation` or `ask`.
 - How: Wrote the tests first. All Harbor knowledge stays in `lib/carriers/harbor/mapping.ts`, and the engine throws if a form field has no mapping.
 - Check: Tests cover both sample profiles and edge cases: coverage extremes, unlisted breeds, dog fields that disagree and bad profile data.
+
+## 5. Validation, visibility and request building
+
+- What: Added validation rules, `showIf` handling, the exclusive `None` rule and the final request builder.
+- How: Wrote the tests first. `buildRequest` validates first and throws, so an invalid request can't be built. Hidden fields are left out.
+- Check: The profile A request is compared with Harbor's exact format in a test. A failed typecheck showed that `next typegen` must run before `tsc`, so I added it to the script.
