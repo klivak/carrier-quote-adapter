@@ -48,7 +48,7 @@ export function QuoteForm({ form, mapping, quote }: Props) {
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
-      <form onSubmit={quote.submit} noValidate className="space-y-6">
+      <form onSubmit={quote.submit} onPointerDownCapture={quote.trackPointer} noValidate className="space-y-6">
         <header>
           <p className="flex items-center gap-1.5 text-sm font-medium text-primary"><ShieldCheck aria-hidden className="size-4" /> {mapping.carrierFullName ?? carrierName}</p>
           <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">Your {carrierName} {form.product} quote</h1>

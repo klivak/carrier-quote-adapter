@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { buildRequest, serializeAnswers } from "@/lib/engine/build-request";
 import { checkEligibility } from "@/lib/engine/eligibility";
@@ -26,6 +26,20 @@ export function useQuoteForm({ form, mapping, profile, today }: Input) {
   const [fixing, setFixing] = useState(false);
   const [request, setRequest] = useState<Record<string, unknown> | null>(null);
 
+  const pendingPointer = useRef<Promise<void> | null>(null);
+  const trackPointer = () => {
+    pendingPointer.current = new Promise((resolve) => {
+      const controller = new AbortController();
+      const end = () => {
+        controller.abort();
+        pendingPointer.current = null;
+        resolve();
+      };
+      window.addEventListener("pointerup", end, { signal: controller.signal });
+      window.addEventListener("pointercancel", end, { signal: controller.signal });
+    });
+  };
+
   const state = deriveQuoteState({ form, mapping, profile, resolutions, answers, today });
   // Derived on each render, so it stays right when the real date replaces the prerender date.
   const refused = !fixing && checkEligibility(form, mapping, prefilled, today).length > 0;
@@ -45,7 +59,13 @@ export function useQuoteForm({ form, mapping, profile, today }: Input) {
     isEditing: (key: string) => Boolean(editing[key]),
     setEditingField: (key: string, value: boolean) => setEditing((current) => ({ ...current, [key]: value })),
     setAnswer: (key: string, value: unknown) => setAnswers((current) => ({ ...current, [key]: value })),
-    markTouched: (key: string) => setTouched((current) => ({ ...current, [key]: true })),
+    trackPointer,
+    markTouched(key: string) {
+      const mark = () => setTouched((current) => ({ ...current, [key]: true }));
+      // A blur can come from pressing another control. Showing an error now would move that control before the press ends, and the click would be lost.
+      if (pendingPointer.current) pendingPointer.current.then(() => setTimeout(mark));
+      else mark();
+    },
     backToForm: () => setRequest(null),
 
     startFixing() {

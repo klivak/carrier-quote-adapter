@@ -98,3 +98,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - How: A refactor with no intended behavior change, so the existing browser tests are the safety net.
 - Check: Unit tests, browser tests, axe, lint and typecheck pass. A search confirms no Harbor names in `components/` or `lib/engine/` outside the demo entry and tests.
 - Slip: A failed shell command once left a broken local commit. A typecheck caught it, and I redid the commit before anything was pushed.
+
+## 17. More tests and project skills
+
+- What: Added browser tests for full flows and edge cases, Harbor invariants checked across 12 profile variants, and two project skills: `add-carrier` and `quality-check`.
+- How: Used the React best practices and accessibility guides as checklists. The accessibility guide led to the reduced motion, focus and zoom-width tests.
+- Check: A new test found a real bug: an error appearing on blur moved the page during a mouse press, so the first click on an option was lost. Errors now wait until the press ends. Code review was not run in this step.
