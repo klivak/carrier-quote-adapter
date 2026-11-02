@@ -1,0 +1,41 @@
+"use client";
+
+import { useState, useSyncExternalStore } from "react";
+import { harbor } from "@/lib/carriers";
+import { profileA, profileB } from "@/lib/profiles";
+import { cn } from "@/lib/utils";
+import { QuoteFlow } from "./quote-flow";
+
+const PROFILES = [
+  { id: "a", label: "Profile A", profile: profileA },
+  { id: "b", label: "Profile B", profile: profileB },
+];
+
+const subscribeNever = () => () => {};
+
+function localToday(): string {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+}
+
+export function QuoteDemo() {
+  const [selected, setSelected] = useState(PROFILES[0]);
+  // The customer's own date is only known in the browser. The engine receives it as a parameter.
+  const today = useSyncExternalStore(subscribeNever, localToday, () => null);
+
+  return (
+    <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-10">
+      <fieldset className="mb-8 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-dashed bg-card/60 px-4 py-3">
+        <legend className="sr-only">Choose a sample customer</legend>
+        <span aria-hidden className="text-sm text-muted-foreground">Demo data:</span>
+        {PROFILES.map((item) => (
+          <label key={item.id} className={cn("flex min-h-11 cursor-pointer items-center rounded-lg border px-3 text-sm has-focus-visible:ring-3 has-focus-visible:ring-ring/50", selected.id === item.id ? "border-primary bg-primary/5 font-semibold" : "border-input bg-card")}>
+            <input type="radio" name="sample-profile" className="sr-only" checked={selected.id === item.id} onChange={() => setSelected(item)} />
+            {item.label}: {item.profile.first_name} {item.profile.last_name}
+          </label>
+        ))}
+      </fieldset>
+      {today ? <QuoteFlow key={selected.id} form={harbor.form} mapping={harbor.mapping} profile={selected.profile} today={today} /> : <div aria-hidden className="h-96 animate-pulse rounded-xl bg-muted motion-reduce:animate-none" />}
+    </main>
+  );
+}

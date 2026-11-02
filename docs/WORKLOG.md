@@ -37,3 +37,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Added one control component that renders any carrier field from its JSON type.
 - How: Few options show as cards, more options as a native select. Dates get a typing mask. Each control has a real label, hints and errors linked with ARIA.
 - Check: The component has no Harbor field names. Checked later in the browser tests.
+
+## 7. Quote flow
+
+- What: Added the page: profile switcher, three groups (ask, check, from profile), live request preview, ineligible and success screens.
+- How: Fields are grouped by what the customer must do. On a failed submit, the first invalid field gets focus and a summary lists all of them.
+- Check: Ran both sample profiles in the browser with Playwright.
