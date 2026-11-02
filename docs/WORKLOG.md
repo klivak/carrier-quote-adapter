@@ -49,3 +49,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Set the theme, darker input borders and muted text for contrast, reduced-motion support and page metadata.
 - How: Reviewed screenshots of each state on desktop and mobile.
 - Check: Screenshots showed the phone placeholder looked like a filled value, so I removed it. I also added a way back from the success screen.
+
+## 9. Browser tests
+
+- What: Added Playwright tests for Maya's full flow, Sam's refusal and correction, the dog toggle, keyboard use and a 360px layout.
+- How: The clock is fixed in tests, so Sam's result won't change after his birthday.
+- Check: These tests found a real bug the unit tests missed: after correcting Sam's state or birth date, the field collapsed mid-edit because it was only open while invalid. Fixed by keeping those fields open.
