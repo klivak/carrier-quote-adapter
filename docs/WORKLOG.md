@@ -121,3 +121,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Brought the docs in line with the code. Added steps 17-19 to the spec's delivery plan, updated the test description, and added a short "How AI was used" section to the README.
 - How: Read the spec, worklog and README side by side. The spec's plan had no entry for steps 17-19, which broke the rule that new steps are added there.
 - Check: Ran unit tests, browser tests, lint, typecheck and build before this commit: all pass. The 3 skipped browser tests are the keyboard-only tests, which skip the mobile project on purpose.
+
+## 21. Push and CI
+
+- What: Pushed `main` to the public GitHub repo and confirmed CI passes.
+- How: The first push was rejected because the HTTPS token had no `workflow` scope, which is needed for `.github/workflows/ci.yml`. Pushing over SSH worked.
+- Check: The GitHub Actions run passed all steps: lint, typecheck, unit tests, build and browser tests. GitHub only warned that Node 20 actions are deprecated.
