@@ -66,7 +66,12 @@ The carrier's knowledge lives only in `lib/carriers/harbor/`. The engine in `lib
 - Unit tests cover the engine and mapping, including a second fake carrier that needs no engine changes.
 - Browser tests run on a production build, on desktop and mobile sizes, with axe accessibility checks on every screen.
 - GitHub Actions runs lint, typecheck, unit tests, build and browser tests on each push.
+- 3 browser tests show as skipped on purpose: the keyboard-only tests run on desktop, not in the mobile project.
 - Not done: testing with a real screen reader.
+
+## How AI was used
+
+Built with Claude Code. The spec was written first and the agent followed it. `CLAUDE.md` holds the project rules, and two project skills in `.claude/skills/` (`add-carrier`, `quality-check`) cover adding a carrier and the checks before a commit. Engine tests were written before the code, and the agent's output was checked with tests, browser runs and screenshots. `docs/WORKLOG.md` records each step, including the mistakes that review caught.
 
 ## Build log
 

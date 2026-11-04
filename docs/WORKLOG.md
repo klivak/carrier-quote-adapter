@@ -115,3 +115,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 
 - What: Added a GitHub Actions workflow for lint, typecheck, unit tests, build and browser tests.
 - How: Added in its own commit, because pushing workflow files needs an extra token permission.
+
+## 20. Docs sync
+
+- What: Brought the docs in line with the code. Added steps 17-19 to the spec's delivery plan, updated the test description, and added a short "How AI was used" section to the README.
+- How: Read the spec, worklog and README side by side. The spec's plan had no entry for steps 17-19, which broke the rule that new steps are added there.
+- Check: Ran unit tests, browser tests, lint, typecheck and build before this commit: all pass. The 3 skipped browser tests are the keyboard-only tests, which skip the mobile project on purpose.

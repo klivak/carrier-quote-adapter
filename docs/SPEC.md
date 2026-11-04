@@ -83,7 +83,7 @@ Stored unchanged as `lib/carriers/harbor/form.json`.
 
 - Next.js (App Router) with TypeScript in strict mode, using the current stable version
 - Tailwind CSS and shadcn/ui
-- Vitest for the core, plus Playwright for one end-to-end run per sample profile
+- Vitest for the core, plus Playwright for browser flows and axe accessibility checks on desktop and mobile sizes
 - pnpm
 - No Docker: there is no backend or database, and `pnpm dev` is the shortest way for a reviewer to run it
 
@@ -331,7 +331,7 @@ Unit (Vitest):
 - Every field in the form has a mapping entry
 - Profile A's request equals the JSON in section 10
 
-End-to-end (Playwright): complete Maya's flow to the request output; see both reasons for Sam with no submit button.
+End-to-end (Playwright): complete Maya's flow to the request output; see both reasons for Sam with no submit button. Later steps added edge-case flows, axe checks on every screen, and layout checks at 360px and 200% zoom. The keyboard-only tests run on desktop only, so 3 tests show as skipped in the mobile project.
 
 ## 15. README contents
 
@@ -368,7 +368,11 @@ Follow-up steps after the first version:
 14. Visual polish and CI
 15. Move derived state into the engine
 16. Split the UI: a hook for state, one file per screen
-17. Push and confirm CI passes
+17. More tests: full flows, edge cases, and two project skills (`add-carrier`, `quality-check`)
+18. Visual review of every screen at phone, tablet and desktop widths
+19. CI workflow: GitHub Actions for lint, typecheck, unit tests, build and browser tests
+20. Sync the docs with what was built (this step)
+21. Push and confirm CI passes
 
 ## 17. Definition of done
 
