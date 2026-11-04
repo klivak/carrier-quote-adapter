@@ -34,16 +34,19 @@ function resolveBreed(profile: Profile, options: string[]): Resolved {
   return ask(`Your profile says ${profile.dog_breed}.`);
 }
 
+// One entry per Harbor field. Status: direct (same), converted (same meaning, new format), needs_confirmation (a guess the customer checks), ask (profile can't answer).
 export const harborMapping: CarrierMapping = {
   carrierName: "Harbor",
   carrierFullName: "Harbor Assurance",
   eligibility: { birthDateField: "date_of_birth", stateField: "residence_state" },
   exclusiveOptions: { pets: ["None"] },
   fields: {
+    // Harbor wants a legal name, the profile only has first and last name, so the customer confirms it.
     applicant_full_name: {
       source: ["first_name", "last_name"],
       resolve: (profile) => (hasText(profile.first_name) && hasText(profile.last_name) ? { status: "needs_confirmation", value: `${profile.first_name.trim()} ${profile.last_name.trim()}`, reason: "Harbor needs your legal name. Please correct this if it's different." } : ask()),
     },
+    // Converted as a string, not with new Date(), so time zones can't shift the day.
     date_of_birth: {
       source: ["date_of_birth"],
       resolve: (profile) => {

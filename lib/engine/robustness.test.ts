@@ -42,6 +42,7 @@ describe("eligibility boundaries", () => {
   });
 });
 
+// A made-up second carrier with different field names: no engine code is changed. This is the 50-carrier idea in one test.
 describe("the engine works with any carrier", () => {
   const otherForm: CarrierForm = {
     carrier: "acme",

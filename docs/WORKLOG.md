@@ -127,3 +127,9 @@ What we did at each step, how, and how it was checked. Tool: Claude Code.
 - What: Pushed `main` to the public GitHub repo and confirmed CI passes.
 - How: The first push was rejected because the HTTPS token had no `workflow` scope, which is needed for `.github/workflows/ci.yml`. Pushing over SSH worked.
 - Check: The GitHub Actions run passed all steps: lint, typecheck, unit tests, build and browser tests. GitHub only warned that Node 20 actions are deprecated.
+
+## 22. Walkthrough comments
+
+- What: Added short comments in the Harbor mapping, the eligibility check and the second-carrier test, to make a code walkthrough easier to follow.
+- How: Comments only, no behavior change. They explain the four field statuses, the two eligibility rules and why the fake carrier test exists.
+- Check: Lint, typecheck and 142 unit tests pass. Browser tests were not re-run because no behavior changed.

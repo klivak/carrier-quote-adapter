@@ -6,6 +6,7 @@ export function checkEligibility(form: CarrierForm, mapping: CarrierMapping, ans
   const { carrierName, eligibility } = mapping;
   const reasons: IneligibilityReason[] = [];
 
+  // Rule 1: the state must be one of the carrier's options.
   const stateField = form.fields.find((field) => field.key === eligibility.stateField);
   const state = answers[eligibility.stateField];
   if (stateField?.options && typeof state === "string" && state && !stateField.options.includes(state)) {
@@ -16,6 +17,7 @@ export function checkEligibility(form: CarrierForm, mapping: CarrierMapping, ans
     });
   }
 
+  // Rule 2: the applicant must be old enough on `today`. All failed rules are returned, not just the first.
   const birthField = form.fields.find((field) => field.key === eligibility.birthDateField);
   const minAge = birthField?.validation?.minAge;
   const birthIso = carrierDateToIso(answers[eligibility.birthDateField]);
